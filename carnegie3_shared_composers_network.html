@@ -1,0 +1,80 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1600;
+            height: 1600;
+            background-color: black;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "group": 0, "id": "Ludwig van Beethoven", "label": "Ludwig van Beethoven", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Johann Sebastian Bach", "label": "Johann Sebastian Bach", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Johannes Brahms", "label": "Johannes Brahms", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Richard Wagner", "label": "Richard Wagner", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Wolfgang Amadeus Mozart", "label": "Wolfgang Amadeus Mozart", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Hector Berlioz", "label": "Hector Berlioz", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "George Frideric Handel", "label": "George Frideric Handel", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Carl Maria von Weber", "label": "Carl Maria von Weber", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Robert Schumann", "label": "Robert Schumann", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Maurice Ravel", "label": "Maurice Ravel", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 1, "id": "Claude Debussy", "label": "Claude Debussy", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Richard Strauss", "label": "Richard Strauss", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Franz Schubert", "label": "Franz Schubert", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Joseph Haydn", "label": "Joseph Haydn", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Gioachino Rossini", "label": "Gioachino Rossini", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "C\u00e9sar Franck", "label": "C\u00e9sar Franck", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Pyotr Ilyich Tchaikovsky", "label": "Pyotr Ilyich Tchaikovsky", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Jean Sibelius", "label": "Jean Sibelius", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Edward Elgar", "label": "Edward Elgar", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Anonymous", "label": "Anonymous", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Felix Mendelssohn", "label": "Felix Mendelssohn", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Ottorino Respighi", "label": "Ottorino Respighi", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Jarom\u00edr Weinberger", "label": "Jarom\u00edr Weinberger", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Igor Stravinsky", "label": "Igor Stravinsky", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 0, "id": "Ralph Vaughan Williams", "label": "Ralph Vaughan Williams", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Anton\u00edn Dvor\u00e1k", "label": "Anton\u00edn Dvor\u00e1k", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Luigi Cherubini", "label": "Luigi Cherubini", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Bedrich Smetana", "label": "Bedrich Smetana", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Henry Purcell", "label": "Henry Purcell", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Johann Strauss Jr.", "label": "Johann Strauss Jr.", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Frederick Delius", "label": "Frederick Delius", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 1, "id": "Manuel de Falla", "label": "Manuel de Falla", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Unknown composer of folk songs", "label": "Unknown composer of folk songs", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 2, "id": "Deems Taylor", "label": "Deems Taylor", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 3, "id": "Dmitry Shostakovich", "label": "Dmitry Shostakovich", "shape": "dot", "size": 10}, {"font": {"color": "white"}, "group": 1, "id": "Franz Liszt", "label": "Franz Liszt", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "Ludwig van Beethoven", "to": "Johann Sebastian Bach", "weight": 3.0, "width": 3.0}, {"from": "Ludwig van Beethoven", "to": "Johannes Brahms", "weight": 5.4, "width": 5.4}, {"from": "Ludwig van Beethoven", "to": "Richard Wagner", "weight": 3.0, "width": 3.0}, {"from": "Ludwig van Beethoven", "to": "Wolfgang Amadeus Mozart", "weight": 2.4, "width": 2.4}, {"from": "Ludwig van Beethoven", "to": "Hector Berlioz", "weight": 1.4, "width": 1.4}, {"from": "Ludwig van Beethoven", "to": "George Frideric Handel", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Carl Maria von Weber", "weight": 1.4, "width": 1.4}, {"from": "Ludwig van Beethoven", "to": "Robert Schumann", "weight": 2.0, "width": 2.0}, {"from": "Ludwig van Beethoven", "to": "Maurice Ravel", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Claude Debussy", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Richard Strauss", "weight": 1.6, "width": 1.6}, {"from": "Ludwig van Beethoven", "to": "Franz Schubert", "weight": 1.8, "width": 1.8}, {"from": "Ludwig van Beethoven", "to": "Joseph Haydn", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Gioachino Rossini", "weight": 1.6, "width": 1.6}, {"from": "Ludwig van Beethoven", "to": "C\u00e9sar Franck", "weight": 1.6, "width": 1.6}, {"from": "Ludwig van Beethoven", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.4, "width": 1.4}, {"from": "Ludwig van Beethoven", "to": "Jean Sibelius", "weight": 1.0, "width": 1.0}, {"from": "Ludwig van Beethoven", "to": "Edward Elgar", "weight": 1.4, "width": 1.4}, {"from": "Ludwig van Beethoven", "to": "Anonymous", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Felix Mendelssohn", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Ottorino Respighi", "weight": 1.2, "width": 1.2}, {"from": "Ludwig van Beethoven", "to": "Jarom\u00edr Weinberger", "weight": 1.0, "width": 1.0}, {"from": "Ludwig van Beethoven", "to": "Igor Stravinsky", "weight": 1.0, "width": 1.0}, {"from": "Johann Sebastian Bach", "to": "Johannes Brahms", "weight": 2.4, "width": 2.4}, {"from": "Johann Sebastian Bach", "to": "Wolfgang Amadeus Mozart", "weight": 1.2, "width": 1.2}, {"from": "Johann Sebastian Bach", "to": "Richard Wagner", "weight": 1.4, "width": 1.4}, {"from": "Johann Sebastian Bach", "to": "Richard Strauss", "weight": 1.0, "width": 1.0}, {"from": "Johann Sebastian Bach", "to": "Maurice Ravel", "weight": 1.2, "width": 1.2}, {"from": "Johann Sebastian Bach", "to": "Hector Berlioz", "weight": 1.0, "width": 1.0}, {"from": "Johann Sebastian Bach", "to": "Franz Schubert", "weight": 1.0, "width": 1.0}, {"from": "Johann Sebastian Bach", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.0, "width": 1.0}, {"from": "Johann Sebastian Bach", "to": "Ralph Vaughan Williams", "weight": 1.0, "width": 1.0}, {"from": "Johannes Brahms", "to": "Wolfgang Amadeus Mozart", "weight": 1.4, "width": 1.4}, {"from": "Johannes Brahms", "to": "Franz Schubert", "weight": 1.8, "width": 1.8}, {"from": "Johannes Brahms", "to": "Carl Maria von Weber", "weight": 1.4, "width": 1.4}, {"from": "Johannes Brahms", "to": "Felix Mendelssohn", "weight": 1.6, "width": 1.6}, {"from": "Johannes Brahms", "to": "Edward Elgar", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "Joseph Haydn", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "Jean Sibelius", "weight": 1.4, "width": 1.4}, {"from": "Johannes Brahms", "to": "Maurice Ravel", "weight": 1.4, "width": 1.4}, {"from": "Johannes Brahms", "to": "Richard Wagner", "weight": 1.4, "width": 1.4}, {"from": "Johannes Brahms", "to": "Robert Schumann", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "Claude Debussy", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "Hector Berlioz", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "George Frideric Handel", "weight": 1.2, "width": 1.2}, {"from": "Johannes Brahms", "to": "Anton\u00edn Dvor\u00e1k", "weight": 1.0, "width": 1.0}, {"from": "Johannes Brahms", "to": "Gioachino Rossini", "weight": 1.0, "width": 1.0}, {"from": "Johannes Brahms", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.0, "width": 1.0}, {"from": "Richard Wagner", "to": "Wolfgang Amadeus Mozart", "weight": 1.6, "width": 1.6}, {"from": "Richard Wagner", "to": "Franz Schubert", "weight": 1.2, "width": 1.2}, {"from": "Richard Wagner", "to": "Luigi Cherubini", "weight": 1.6, "width": 1.6}, {"from": "Richard Wagner", "to": "Carl Maria von Weber", "weight": 1.0, "width": 1.0}, {"from": "Richard Wagner", "to": "Jean Sibelius", "weight": 1.2, "width": 1.2}, {"from": "Richard Wagner", "to": "Felix Mendelssohn", "weight": 1.2, "width": 1.2}, {"from": "Richard Wagner", "to": "Bedrich Smetana", "weight": 1.2, "width": 1.2}, {"from": "Richard Wagner", "to": "Edward Elgar", "weight": 1.0, "width": 1.0}, {"from": "Richard Wagner", "to": "Richard Strauss", "weight": 1.0, "width": 1.0}, {"from": "Richard Wagner", "to": "Henry Purcell", "weight": 1.0, "width": 1.0}, {"from": "Richard Wagner", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Igor Stravinsky", "weight": 2.6, "width": 2.6}, {"from": "Wolfgang Amadeus Mozart", "to": "Pyotr Ilyich Tchaikovsky", "weight": 2.2, "width": 2.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Claude Debussy", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Edward Elgar", "weight": 1.8, "width": 1.8}, {"from": "Wolfgang Amadeus Mozart", "to": "Franz Schubert", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Hector Berlioz", "weight": 1.6, "width": 1.6}, {"from": "Wolfgang Amadeus Mozart", "to": "Johann Strauss Jr.", "weight": 1.6, "width": 1.6}, {"from": "Wolfgang Amadeus Mozart", "to": "Maurice Ravel", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Frederick Delius", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Carl Maria von Weber", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Anton\u00edn Dvor\u00e1k", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Joseph Haydn", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Manuel de Falla", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Bedrich Smetana", "weight": 1.4, "width": 1.4}, {"from": "Wolfgang Amadeus Mozart", "to": "Robert Schumann", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Richard Strauss", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Felix Mendelssohn", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "George Frideric Handel", "weight": 1.2, "width": 1.2}, {"from": "Wolfgang Amadeus Mozart", "to": "Jean Sibelius", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Ralph Vaughan Williams", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Jarom\u00edr Weinberger", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "C\u00e9sar Franck", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Unknown composer of folk songs", "weight": 1.0, "width": 1.0}, {"from": "Wolfgang Amadeus Mozart", "to": "Deems Taylor", "weight": 1.0, "width": 1.0}, {"from": "Hector Berlioz", "to": "Felix Mendelssohn", "weight": 1.0, "width": 1.0}, {"from": "Igor Stravinsky", "to": "Jean Sibelius", "weight": 1.6, "width": 1.6}, {"from": "Igor Stravinsky", "to": "Carl Maria von Weber", "weight": 1.0, "width": 1.0}, {"from": "George Frideric Handel", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.0, "width": 1.0}, {"from": "George Frideric Handel", "to": "Ralph Vaughan Williams", "weight": 1.2, "width": 1.2}, {"from": "George Frideric Handel", "to": "C\u00e9sar Franck", "weight": 1.0, "width": 1.0}, {"from": "Carl Maria von Weber", "to": "Jean Sibelius", "weight": 1.0, "width": 1.0}, {"from": "Carl Maria von Weber", "to": "Felix Mendelssohn", "weight": 1.2, "width": 1.2}, {"from": "Carl Maria von Weber", "to": "Edward Elgar", "weight": 1.0, "width": 1.0}, {"from": "Robert Schumann", "to": "Pyotr Ilyich Tchaikovsky", "weight": 1.0, "width": 1.0}, {"from": "Robert Schumann", "to": "Maurice Ravel", "weight": 1.4, "width": 1.4}, {"from": "Robert Schumann", "to": "Jean Sibelius", "weight": 1.2, "width": 1.2}, {"from": "Pyotr Ilyich Tchaikovsky", "to": "Dmitry Shostakovich", "weight": 1.0, "width": 1.0}, {"from": "Claude Debussy", "to": "Manuel de Falla", "weight": 1.0, "width": 1.0}, {"from": "Franz Schubert", "to": "Johann Strauss Jr.", "weight": 1.2, "width": 1.2}, {"from": "Franz Schubert", "to": "Jean Sibelius", "weight": 1.2, "width": 1.2}, {"from": "Richard Strauss", "to": "Joseph Haydn", "weight": 1.0, "width": 1.0}, {"from": "Joseph Haydn", "to": "Felix Mendelssohn", "weight": 1.4, "width": 1.4}, {"from": "Joseph Haydn", "to": "Dmitry Shostakovich", "weight": 1.0, "width": 1.0}, {"from": "Gioachino Rossini", "to": "Jean Sibelius", "weight": 1.0, "width": 1.0}, {"from": "Felix Mendelssohn", "to": "Jean Sibelius", "weight": 1.2, "width": 1.2}, {"from": "Manuel de Falla", "to": "Franz Liszt", "weight": 1.0, "width": 1.0}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {"physics": {"enabled": true, "forceAtlas2Based": {"springLength": 1}, "solver": "forceAtlas2Based"}};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
