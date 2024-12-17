@@ -12,8 +12,8 @@ import re
 import networkx as nx
 import plotly.express as px
 import requests
-
-
+from pathlib import Path
+import streamlit.components.v1 as components
 
 from pyvis import network as net
 import networkx as nx
@@ -98,8 +98,8 @@ def create_network(df: pd.DataFrame,name:str,min_threshold:int,edge_thinness:int
     pair_counts_filtered = (pair_counts[pair_counts >= min_threshold])
     
     # set graph options:
-    graph_height = 800
-    graph_width = 1200
+    graph_height = 80000
+    graph_width = 80000
     detect_louvain_communities = True
     add_forceAtlas2Based_physics = True
     
@@ -140,12 +140,20 @@ def create_network(df: pd.DataFrame,name:str,min_threshold:int,edge_thinness:int
             
         G = add_communities(G)
     
-    # set display parameters
-    network_graph = net.Network(notebook=True,
-                       width=graph_height,
-                       height=graph_height,
-                       bgcolor="black", 
-                       font_color="white")
+    # # set display parameters
+    # network_graph = net.Network(notebook=True,
+    #                    width=graph_width,
+    #                    height=graph_height,
+    #                    bgcolor="black", 
+    #                    font_color="white")
+
+    network_graph = net.Network(
+    notebook=True,
+    width="100%",  # Use the full width of the container
+    height="800px",  # Adjust height as needed
+    bgcolor="black",
+    font_color="white")
+
     
     # Set the physics layout of the network
     
@@ -174,4 +182,65 @@ df1 = filter_by_year(df,lower_bound,upper_bound)
 min_threshold = st.number_input('Minimum number of connected performances:',min_value=1)
 thinness = st.number_input('Line Thinness Multiplier:',min_value=1)
 title = st.text_input('Network Title:')
-st.write(create_network(df1,'network1',min_threshold,thinness).show(f'{title}.html'))
+
+test = create_network(df1,'network1',min_threshold,thinness).show(f'{title}.html')
+
+if Path(f"{title}.html").is_file():
+    # Read the HTML file
+    with open(f'{title}.html', 'r', encoding='utf-8') as f:
+        html_string = f.read()
+    html_string = html_string + """
+    <script type="text/javascript">
+        window.onload = function() {
+            var container = document.getElementById('mynetwork');
+            var canvas = container.getElementsByTagName('canvas')[0];
+            if (canvas) {
+                canvas.style.width = '100%';  // Make the canvas responsive
+                canvas.style.height = '100%'; // Make the canvas responsive
+                // If you want to explicitly set size, uncomment the following lines:
+                # canvas.width = container.offsetWidth;
+                # canvas.height = container.offsetHeight;
+            }
+        };
+    </script>
+    """
+
+components.html(html_string, height=800, width=None)
+
+
+# if Path(f"{title}.html").is_file():
+#     # Read the HTML file
+#     with open(f'{title}.html', 'r', encoding='utf-8') as f:
+#         html_string = f.read()
+
+#     # Add JavaScript and CSS for better responsiveness and artifact removal
+#     html_string += """
+#     <style>
+#         #mynetwork {
+#             width: 100%;
+#             height: 100%;
+#             position: relative;
+#             overflow: hidden;
+#         }
+#         canvas {
+#             display: block; /* Ensures proper rendering without extra margins */
+#             width: 100% !important;
+#             height: 100% !important;
+#         }
+#     </style>
+#     <script type="text/javascript">
+#         window.onload = function() {
+#             var container = document.getElementById('mynetwork');
+#             var canvas = container.querySelector('canvas');
+#             if (canvas) {
+#                 canvas.style.width = container.offsetWidth + 'px';
+#                 canvas.style.height = container.offsetHeight + 'px';
+#                 canvas.width = container.offsetWidth;
+#                 canvas.height = container.offsetHeight;
+#             }
+#         };
+#     </script>
+#     """
+
+#     # Render the modified HTML
+#     components.html(html_string, height=800)
