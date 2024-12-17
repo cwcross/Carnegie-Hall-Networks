@@ -3,7 +3,7 @@ import streamlit as st
 from community import community_louvain
 from copy import deepcopy
 import altair as alt
-from IPython.display import SVG
+# from IPython.display import SVG
 import glob as glob
 import numpy as np
 import os
