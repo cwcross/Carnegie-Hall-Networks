@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 800;
+                 height: 800;
+                 background-color: black;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"font": {"color": "white"}, "group": 0, "id": "Richard Wagner", "label": "Richard Wagner", "shape": "dot", "size": 10, "title": "Performances: 881 Born:     1813\nName: Richard Wagner, dtype: object", "value": 13.553846153846154}, {"font": {"color": "white"}, "group": 0, "id": "Ludwig van Beethoven", "label": "Ludwig van Beethoven", "shape": "dot", "size": 10, "title": "Performances: 408 Born:     1770\nName: Ludwig van Beethoven, dtype: object", "value": 6.276923076923077}, {"font": {"color": "white"}, "group": 2, "id": "Pyotr Ilyich Tchaikovsky", "label": "Pyotr Ilyich Tchaikovsky", "shape": "dot", "size": 10, "title": "Performances: 328 Born:     1840\nName: Pyotr Ilyich Tchaikovsky, dtype: object", "value": 5.046153846153846}, {"font": {"color": "white"}, "group": 0, "id": "Franz Liszt", "label": "Franz Liszt", "shape": "dot", "size": 10, "title": "Performances: 170 Born:     1811\nName: Franz Liszt, dtype: object", "value": 2.6153846153846154}, {"font": {"color": "white"}, "group": 1, "id": "Richard Strauss", "label": "Richard Strauss", "shape": "dot", "size": 10, "title": "Performances: 183 Born:     1864\nName: Richard Strauss, dtype: object", "value": 2.8153846153846156}, {"font": {"color": "white"}, "group": 1, "id": "Johannes Brahms", "label": "Johannes Brahms", "shape": "dot", "size": 10, "title": "Performances: 169 Born:     1833\nName: Johannes Brahms, dtype: object", "value": 2.6}, {"font": {"color": "white"}, "group": 2, "id": "Anton\u00edn Dvor\u00e1k", "label": "Anton\u00edn Dvor\u00e1k", "shape": "dot", "size": 10, "title": "Performances: 128 Born:     1841\nName: Anton\u00edn Dvor\u00e1k, dtype: object", "value": 1.9692307692307693}, {"font": {"color": "white"}, "group": 1, "id": "Robert Schumann", "label": "Robert Schumann", "shape": "dot", "size": 10, "title": "Performances: 104 Born:     1810\nName: Robert Schumann, dtype: object", "value": 1.6}, {"font": {"color": "white"}, "group": 0, "id": "Johann Sebastian Bach", "label": "Johann Sebastian Bach", "shape": "dot", "size": 10, "title": "Performances: 117 Born:     1685\nName: Johann Sebastian Bach, dtype: object", "value": 1.8}, {"font": {"color": "white"}, "group": 1, "id": "Franz Schubert", "label": "Franz Schubert", "shape": "dot", "size": 10, "title": "Performances: 115 Born:     1797\nName: Franz Schubert, dtype: object", "value": 1.7692307692307692}, {"font": {"color": "white"}, "group": 0, "id": "Sergei Rachmaninoff", "label": "Sergei Rachmaninoff", "shape": "dot", "size": 10, "title": "Performances: 27 Born:     1873\nName: Sergei Rachmaninoff, dtype: object", "value": 0.4153846153846154}, {"font": {"color": "white"}, "group": 0, "id": "Max Bruch", "label": "Max Bruch", "shape": "dot", "size": 10, "title": "Performances: 43 Born:     1838\nName: Max Bruch, dtype: object", "value": 0.6615384615384615}, {"font": {"color": "white"}, "group": 2, "id": "Claude Debussy", "label": "Claude Debussy", "shape": "dot", "size": 10, "title": "Performances: 58 Born:     1862\nName: Claude Debussy, dtype: object", "value": 0.8923076923076924}, {"font": {"color": "white"}, "group": 1, "id": "Camille Saint-Sa\u00ebns", "label": "Camille Saint-Sa\u00ebns", "shape": "dot", "size": 10, "title": "Performances: 80 Born:     1835\nName: Camille Saint-Sa\u00ebns, dtype: object", "value": 1.2307692307692308}, {"font": {"color": "white"}, "group": 0, "id": "Wolfgang Amadeus Mozart", "label": "Wolfgang Amadeus Mozart", "shape": "dot", "size": 10, "title": "Performances: 91 Born:     1756\nName: Wolfgang Amadeus Mozart, dtype: object", "value": 1.4}, {"font": {"color": "white"}, "group": 2, "id": "Carl Maria von Weber", "label": "Carl Maria von Weber", "shape": "dot", "size": 10, "title": "Performances: 76 Born:     1786\nName: Carl Maria von Weber, dtype: object", "value": 1.1692307692307693}, {"font": {"color": "white"}, "group": 1, "id": "Hector Berlioz", "label": "Hector Berlioz", "shape": "dot", "size": 10, "title": "Performances: 102 Born:     1803\nName: Hector Berlioz, dtype: object", "value": 1.5692307692307692}, {"font": {"color": "white"}, "group": 0, "id": "Joseph Haydn", "label": "Joseph Haydn", "shape": "dot", "size": 10, "title": "Performances: 42 Born:     1732\nName: Joseph Haydn, dtype: object", "value": 0.6461538461538462}, {"font": {"color": "white"}, "group": 0, "id": "Edvard Grieg", "label": "Edvard Grieg", "shape": "dot", "size": 10, "title": "Performances: 65 Born:     1843\nName: Edvard Grieg, dtype: object", "value": 1.0}, {"font": {"color": "white"}, "group": 2, "id": "Felix Mendelssohn", "label": "Felix Mendelssohn", "shape": "dot", "size": 10, "title": "Performances: 109 Born:     1809\nName: Felix Mendelssohn, dtype: object", "value": 1.676923076923077}, {"font": {"color": "white"}, "group": 2, "id": "John Stafford Smith", "label": "John Stafford Smith", "shape": "dot", "size": 10, "title": "Performances: 34 Born:     1750\nName: John Stafford Smith, dtype: object", "value": 0.5230769230769231}, {"font": {"color": "white"}, "group": 2, "id": "Anton Rubinstein", "label": "Anton Rubinstein", "shape": "dot", "size": 10, "title": "Performances: 35 Born:     1829\nName: Anton Rubinstein, dtype: object", "value": 0.5384615384615384}]);
+                  edges = new vis.DataSet([{"from": "Richard Wagner", "title": "Ludwig van Beethoven and Richard Wagner have performed 52 times together.", "to": "Ludwig van Beethoven", "width": 5.2}, {"from": "Richard Wagner", "title": "Pyotr Ilyich Tchaikovsky and Richard Wagner have performed 32 times together.", "to": "Pyotr Ilyich Tchaikovsky", "width": 3.2}, {"from": "Richard Wagner", "title": "Franz Liszt and Richard Wagner have performed 21 times together.", "to": "Franz Liszt", "width": 2.1}, {"from": "Richard Wagner", "title": "Richard Strauss and Richard Wagner have performed 20 times together.", "to": "Richard Strauss", "width": 2.0}, {"from": "Richard Wagner", "title": "Johannes Brahms and Richard Wagner have performed 18 times together.", "to": "Johannes Brahms", "width": 1.8}, {"from": "Richard Wagner", "title": "Anton\u00edn Dvor\u00e1k and Richard Wagner have performed 11 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.1}, {"from": "Richard Wagner", "title": "Richard Wagner and Robert Schumann have performed 16 times together.", "to": "Robert Schumann", "width": 1.6}, {"from": "Richard Wagner", "title": "Richard Wagner and Johann Sebastian Bach have performed 14 times together.", "to": "Johann Sebastian Bach", "width": 1.4}, {"from": "Richard Wagner", "title": "Franz Schubert and Richard Wagner have performed 11 times together.", "to": "Franz Schubert", "width": 1.1}, {"from": "Richard Wagner", "title": "Richard Wagner and Sergei Rachmaninoff have performed 11 times together.", "to": "Sergei Rachmaninoff", "width": 1.1}, {"from": "Richard Wagner", "title": "Richard Wagner and Max Bruch have performed 11 times together.", "to": "Max Bruch", "width": 1.1}, {"from": "Richard Wagner", "title": "Richard Wagner and Claude Debussy have performed 10 times together.", "to": "Claude Debussy", "width": 1.0}, {"from": "Richard Wagner", "title": "Richard Wagner and Camille Saint-Sa\u00ebns have performed 10 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}, {"from": "Richard Wagner", "title": "Wolfgang Amadeus Mozart and Richard Wagner have performed 10 times together.", "to": "Wolfgang Amadeus Mozart", "width": 1.0}, {"from": "Richard Wagner", "title": "Carl Maria von Weber and Richard Wagner have performed 10 times together.", "to": "Carl Maria von Weber", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Pyotr Ilyich Tchaikovsky and Ludwig van Beethoven have performed 29 times together.", "to": "Pyotr Ilyich Tchaikovsky", "width": 2.9}, {"from": "Ludwig van Beethoven", "title": "Franz Liszt and Ludwig van Beethoven have performed 25 times together.", "to": "Franz Liszt", "width": 2.5}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Richard Strauss have performed 20 times together.", "to": "Richard Strauss", "width": 2.0}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Johannes Brahms have performed 13 times together.", "to": "Johannes Brahms", "width": 1.3}, {"from": "Ludwig van Beethoven", "title": "Wolfgang Amadeus Mozart and Ludwig van Beethoven have performed 16 times together.", "to": "Wolfgang Amadeus Mozart", "width": 1.6}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Franz Schubert have performed 10 times together.", "to": "Franz Schubert", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Hector Berlioz and Ludwig van Beethoven have performed 11 times together.", "to": "Hector Berlioz", "width": 1.1}, {"from": "Ludwig van Beethoven", "title": "Johann Sebastian Bach and Ludwig van Beethoven have performed 15 times together.", "to": "Johann Sebastian Bach", "width": 1.5}, {"from": "Ludwig van Beethoven", "title": "Carl Maria von Weber and Ludwig van Beethoven have performed 10 times together.", "to": "Carl Maria von Weber", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Robert Schumann and Ludwig van Beethoven have performed 11 times together.", "to": "Robert Schumann", "width": 1.1}, {"from": "Ludwig van Beethoven", "title": "Joseph Haydn and Ludwig van Beethoven have performed 13 times together.", "to": "Joseph Haydn", "width": 1.3}, {"from": "Ludwig van Beethoven", "title": "Anton\u00edn Dvor\u00e1k and Ludwig van Beethoven have performed 10 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Camille Saint-Sa\u00ebns and Ludwig van Beethoven have performed 13 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.3}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Edvard Grieg have performed 11 times together.", "to": "Edvard Grieg", "width": 1.1}, {"from": "Ludwig van Beethoven", "title": "Felix Mendelssohn and Ludwig van Beethoven have performed 10 times together.", "to": "Felix Mendelssohn", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Johannes Brahms and Pyotr Ilyich Tchaikovsky have performed 22 times together.", "to": "Johannes Brahms", "width": 2.2}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Franz Liszt have performed 12 times together.", "to": "Franz Liszt", "width": 1.2}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Richard Strauss have performed 11 times together.", "to": "Richard Strauss", "width": 1.1}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Franz Schubert have performed 10 times together.", "to": "Franz Schubert", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Anton\u00edn Dvor\u00e1k have performed 13 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.3}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Felix Mendelssohn have performed 14 times together.", "to": "Felix Mendelssohn", "width": 1.4}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Wolfgang Amadeus Mozart have performed 14 times together.", "to": "Wolfgang Amadeus Mozart", "width": 1.4}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Hector Berlioz and Pyotr Ilyich Tchaikovsky have performed 13 times together.", "to": "Hector Berlioz", "width": 1.3}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Robert Schumann have performed 12 times together.", "to": "Robert Schumann", "width": 1.2}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and John Stafford Smith have performed 12 times together.", "to": "John Stafford Smith", "width": 1.2}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Carl Maria von Weber and Pyotr Ilyich Tchaikovsky have performed 12 times together.", "to": "Carl Maria von Weber", "width": 1.2}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Johann Sebastian Bach and Pyotr Ilyich Tchaikovsky have performed 10 times together.", "to": "Johann Sebastian Bach", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Claude Debussy have performed 11 times together.", "to": "Claude Debussy", "width": 1.1}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Anton Rubinstein and Pyotr Ilyich Tchaikovsky have performed 10 times together.", "to": "Anton Rubinstein", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Camille Saint-Sa\u00ebns have performed 10 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}, {"from": "Franz Liszt", "title": "Johannes Brahms and Franz Liszt have performed 10 times together.", "to": "Johannes Brahms", "width": 1.0}, {"from": "Franz Liszt", "title": "Anton\u00edn Dvor\u00e1k and Franz Liszt have performed 10 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.0}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Robert Schumann have performed 18 times together.", "to": "Robert Schumann", "width": 1.8}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Anton\u00edn Dvor\u00e1k have performed 11 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.1}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Franz Schubert have performed 10 times together.", "to": "Franz Schubert", "width": 1.0}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Richard Strauss have performed 10 times together.", "to": "Richard Strauss", "width": 1.0}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Hector Berlioz have performed 10 times together.", "to": "Hector Berlioz", "width": 1.0}, {"from": "Johannes Brahms", "title": "Johannes Brahms and Camille Saint-Sa\u00ebns have performed 10 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}, {"from": "Richard Strauss", "title": "Richard Strauss and Hector Berlioz have performed 13 times together.", "to": "Hector Berlioz", "width": 1.3}, {"from": "Richard Strauss", "title": "Richard Strauss and Franz Schubert have performed 11 times together.", "to": "Franz Schubert", "width": 1.1}, {"from": "Richard Strauss", "title": "Anton\u00edn Dvor\u00e1k and Richard Strauss have performed 10 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 1.0}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Felix Mendelssohn and Anton\u00edn Dvor\u00e1k have performed 14 times together.", "to": "Felix Mendelssohn", "width": 1.4}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Johann Sebastian Bach and Anton\u00edn Dvor\u00e1k have performed 11 times together.", "to": "Johann Sebastian Bach", "width": 1.1}, {"from": "Robert Schumann", "title": "Robert Schumann and Felix Mendelssohn have performed 10 times together.", "to": "Felix Mendelssohn", "width": 1.0}, {"from": "Hector Berlioz", "title": "Camille Saint-Sa\u00ebns and Hector Berlioz have performed 10 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "forceAtlas2Based": {"springLength": 1}, "solver": "forceAtlas2Based"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

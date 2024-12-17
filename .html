@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 800;
+                 height: 800;
+                 background-color: black;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"font": {"color": "white"}, "group": 0, "id": "Paul Gilson", "label": "Paul Gilson", "shape": "dot", "size": 10, "title": "Performances: 2 Born:     1865\nName: Paul Gilson, dtype: object", "value": 0.03076923076923077}, {"font": {"color": "white"}, "group": 1, "id": "Ludwig van Beethoven", "label": "Ludwig van Beethoven", "shape": "dot", "size": 10, "title": "Performances: 4 Born:     1770\nName: Ludwig van Beethoven, dtype: object", "value": 0.06153846153846154}, {"font": {"color": "white"}, "group": 0, "id": "Anton\u00edn Dvor\u00e1k", "label": "Anton\u00edn Dvor\u00e1k", "shape": "dot", "size": 10, "title": "Performances: 4 Born:     1841\nName: Anton\u00edn Dvor\u00e1k, dtype: object", "value": 0.06153846153846154}, {"font": {"color": "white"}, "group": 0, "id": "Carl Goldmark", "label": "Carl Goldmark", "shape": "dot", "size": 10, "title": "Performances: 2 Born:     1830\nName: Carl Goldmark, dtype: object", "value": 0.03076923076923077}, {"font": {"color": "white"}, "group": 1, "id": "Pyotr Ilyich Tchaikovsky", "label": "Pyotr Ilyich Tchaikovsky", "shape": "dot", "size": 10, "title": "Performances: 2 Born:     1840\nName: Pyotr Ilyich Tchaikovsky, dtype: object", "value": 0.03076923076923077}, {"font": {"color": "white"}, "group": 1, "id": "Richard Wagner", "label": "Richard Wagner", "shape": "dot", "size": 10, "title": "Performances: 2 Born:     1813\nName: Richard Wagner, dtype: object", "value": 0.03076923076923077}, {"font": {"color": "white"}, "group": 1, "id": "Camille Saint-Sa\u00ebns", "label": "Camille Saint-Sa\u00ebns", "shape": "dot", "size": 10, "title": "Performances: 2 Born:     1835\nName: Camille Saint-Sa\u00ebns, dtype: object", "value": 0.03076923076923077}]);
+                  edges = new vis.DataSet([{"from": "Paul Gilson", "title": "Paul Gilson and Ludwig van Beethoven have performed 2 times together.", "to": "Ludwig van Beethoven", "width": 2.0}, {"from": "Paul Gilson", "title": "Paul Gilson and Anton\u00edn Dvor\u00e1k have performed 2 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 2.0}, {"from": "Paul Gilson", "title": "Carl Goldmark and Paul Gilson have performed 1 times together.", "to": "Carl Goldmark", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Anton\u00edn Dvor\u00e1k and Ludwig van Beethoven have performed 2 times together.", "to": "Anton\u00edn Dvor\u00e1k", "width": 2.0}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Pyotr Ilyich Tchaikovsky have performed 2 times together.", "to": "Pyotr Ilyich Tchaikovsky", "width": 2.0}, {"from": "Ludwig van Beethoven", "title": "Ludwig van Beethoven and Richard Wagner have performed 2 times together.", "to": "Richard Wagner", "width": 2.0}, {"from": "Ludwig van Beethoven", "title": "Carl Goldmark and Ludwig van Beethoven have performed 1 times together.", "to": "Carl Goldmark", "width": 1.0}, {"from": "Ludwig van Beethoven", "title": "Camille Saint-Sa\u00ebns and Ludwig van Beethoven have performed 1 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Anton\u00edn Dvor\u00e1k and Camille Saint-Sa\u00ebns have performed 2 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 2.0}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Carl Goldmark and Anton\u00edn Dvor\u00e1k have performed 1 times together.", "to": "Carl Goldmark", "width": 1.0}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Anton\u00edn Dvor\u00e1k and Pyotr Ilyich Tchaikovsky have performed 1 times together.", "to": "Pyotr Ilyich Tchaikovsky", "width": 1.0}, {"from": "Anton\u00edn Dvor\u00e1k", "title": "Anton\u00edn Dvor\u00e1k and Richard Wagner have performed 1 times together.", "to": "Richard Wagner", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Pyotr Ilyich Tchaikovsky and Richard Wagner have performed 1 times together.", "to": "Richard Wagner", "width": 1.0}, {"from": "Pyotr Ilyich Tchaikovsky", "title": "Camille Saint-Sa\u00ebns and Pyotr Ilyich Tchaikovsky have performed 1 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}, {"from": "Richard Wagner", "title": "Camille Saint-Sa\u00ebns and Richard Wagner have performed 1 times together.", "to": "Camille Saint-Sa\u00ebns", "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "forceAtlas2Based": {"springLength": 1}, "solver": "forceAtlas2Based"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
